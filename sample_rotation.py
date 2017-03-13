@@ -1,4 +1,6 @@
 import sqlite3
+import sys 
+
 #Create our in-memory database object
 db = sqlite3.connect(':memory:')
 
@@ -26,8 +28,14 @@ def populate_db(cur, monthy):
 if __name__ == '__main__':
     cur = db.cursor() #Create our db cursor object for use in the functions
     init_db(cur) #Create our demographics table
-    month1 = input() #Get the first month we want to compare
-    month2 = input() #Get the second month we want to compare
+    if not sys.argv[1]: 
+        month1 = input("Please enter the first month you'd like to compare in the numeric format YYYYMM: ") #Get the first month we want to compare
+    else: 
+        month1 = sys.argv[1]
+    if not sys.argv[2]:
+        month2 = input("Please enter the second month you'd like to compare in the numeric format YYYYMM: ") #Get the second month we want to compare
+    else:
+        month2 = sys.argv[2]
     populate_db(cur, month1) #Load the first month's data into the db
     populate_db(cur, month2) #Load the second month's data into the db
     #Three SQL queries to extract IDs per each month and then to extract the total common IDs between those months
